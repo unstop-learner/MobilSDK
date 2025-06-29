@@ -1,0 +1,92 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+// apply from: rootProject.file('dependencies.gradle')
+
+// buildscript {
+//     repositories {
+//         google()
+//         jcenter()
+//         mavenCentral()
+//         maven { url 'https://maven.fabric.io/public' }
+//         maven { url 'https://plugins.gradle.org/m2/' }
+//         maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+//     }
+
+//     dependencies {
+//         classpath 'com.android.tools.build:gradle:7.4.2'
+//         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
+//     }
+// }
+
+
+// allprojects {
+//     repositories {
+//         maven {
+//             url REPO_MAVEN2
+//         }
+//         google()
+//         jcenter()
+//         mavenCentral()
+//         maven {
+//             url KOTLIN_MAVEN
+//         }
+//         maven { url JITPACK_MAVEN_URL }
+//         repositories {
+//             flatDir {
+//                 dirs new File(rootProject.projectDir.getAbsolutePath() + '/libs')
+//             }
+//         }
+//     }
+// }
+apply from: rootProject.file('dependencies.gradle')
+
+buildscript {
+    repositories {
+        // 使用阿里云镜像加速
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.10.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
+    }
+}
+
+allprojects {
+    repositories {
+        // 使用阿里云镜像加速
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jitpack' }
+        google()
+        mavenCentral()
+
+        // 特殊仓库（阿里云镜像加速后）
+        maven {
+            url REPO_MAVEN2
+            allowInsecureProtocol true
+        }
+        maven {
+            url KOTLIN_MAVEN
+            allowInsecureProtocol true
+        }
+        maven {
+            url JITPACK_MAVEN_URL
+            allowInsecureProtocol true
+        }
+
+        // 移除多余仓库
+        // jcenter() 已弃用
+        // mavenCentral() 已包含在阿里云镜像中
+        // google() 已包含在阿里云镜像中
+
+        // 本地库配置（保持不变）
+        flatDir {
+            dirs new File(rootProject.projectDir.getAbsolutePath() + '/libs')
+        }
+    }
+}
+
